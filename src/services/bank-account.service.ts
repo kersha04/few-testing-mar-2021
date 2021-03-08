@@ -1,7 +1,9 @@
+import { BonusCalculatorService } from './bonus-calculator.service';
 
 
 export class BankAccountService {
 
+  constructor(private bonusCalculator: BonusCalculatorService) { }
   private _balance = 5000;
 
   getBalance(): number {
@@ -9,7 +11,12 @@ export class BankAccountService {
   }
 
   deposit(amount: number): void {
-    this._balance += amount;
+    const bonus = this.bonusCalculator.calculateBonusFor(
+      this._balance,
+      amount
+    );
+
+    this._balance += amount + bonus;
   }
 
   withdraw(amountToWithdraw: number): void {
