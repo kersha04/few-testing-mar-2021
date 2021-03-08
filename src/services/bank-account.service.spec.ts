@@ -60,7 +60,7 @@ describe('BankAccountService Collaborators', () => {
   it('should use the bonus calculator', () => {
     // I'm going to create a bonus calculator that returns a rediculous number
     // I will know it uses the calculator if that number is added to the balance.
-
+    // Given - Arrange
     const stubbedCalculator = jasmine.createSpyObj<BonusCalculatorService>(
       'bonusCalculator', [
       'calculateBonusFor'
@@ -70,9 +70,9 @@ describe('BankAccountService Collaborators', () => {
     const account = new BankAccountService(stubbedCalculator);
     const openingBalance = account.getBalance();
     const amountToDeposit = 100;
-
+    // When - Act
     account.deposit(amountToDeposit);
-
+    // Then - Assert
     expect(account.getBalance()).toEqual(
       openingBalance +
       amountToDeposit +
