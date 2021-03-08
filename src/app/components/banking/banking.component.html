@@ -1,0 +1,13 @@
+<p>Your Balance is <span data-t-banking-balance>{{ balance | currency}}</span></p>
+<div class="field">
+  <label for="amount">Amount</label>
+  <input type="number"
+         #amount
+         class="input">
+</div>
+<div>
+  <button class="button"
+          (click)="deposit(amount)">Deposit</button>
+  <button class="button"
+          (click)="withdraw(amount)">Withdraw</button>
+</div>

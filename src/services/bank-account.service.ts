@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core';
 import { BonusCalculatorService } from './bonus-calculator.service';
 
-
+@Injectable()
 export class BankAccountService {
 
   constructor(private bonusCalculator: BonusCalculatorService) { }
