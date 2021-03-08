@@ -3,11 +3,14 @@
   <label for="amount">Amount</label>
   <input type="number"
          #amount
+         data-t-banking-amount-input
          class="input">
 </div>
 <div>
   <button class="button"
+          data-t-banking-deposit-button
           (click)="deposit(amount)">Deposit</button>
   <button class="button"
+          data-t-banking-withdraw-button
           (click)="withdraw(amount)">Withdraw</button>
 </div>
