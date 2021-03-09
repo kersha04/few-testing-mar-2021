@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TodoListItem } from 'src/app/models/todos';
 import { environment } from '../environments/environment';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 @Injectable()
 export class TodosDataService {
 
@@ -28,13 +28,18 @@ export class TodosDataService {
         tap(items => {
           this.data = items;
           this.dataSubject.next(this.data);
-        }
-        )
+        })
       ).subscribe();
   }
   // 5. to add one.
   addTodo(item: { description: string }): void {
-
+    this.http.post<TodoListItem>(this.baseUrl, item)
+      .pipe(
+        tap(response => {
+          this.data = [response, ...this.data];
+          this.dataSubject.next(this.data);
+        })
+      ).subscribe();
   }
 
 }
