@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'few-testing';
+
+  makeDesert(): void {
+    console.log('Here is some pie');
+  }
 }
