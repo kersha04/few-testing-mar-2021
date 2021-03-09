@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TodosDataService } from 'src/services/todos-data.service';
 import { TodoListItem } from '../../models/todos';
 
 @Component({
@@ -8,16 +10,15 @@ import { TodoListItem } from '../../models/todos';
 })
 export class TodosComponent implements OnInit {
 
-  items: TodoListItem[] = [
-    { id: '1', description: 'Create a Service For This' },
-    { id: '2', description: 'Call the Drs Office' }
-  ];
-  constructor() { }
+  items$: Observable<TodoListItem[]>;
+  constructor(private service: TodosDataService) { }
 
   ngOnInit(): void {
+    this.service.loadData();
+    this.items$ = this.service.getData$();
   }
 
   onItemAdded(item: string): void {
-    console.log('Got an item from my baby', item);
+    this.service.addTodo({ description: item });
   }
 }

@@ -13,6 +13,7 @@ import { TodoListComponent } from './components/todos/todo-list/todo-list.compon
 import { TodoEntryComponent } from './components/todos/todo-entry/todo-entry.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { TodosDataService } from 'src/services/todos-data.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [BankAccountService, BonusCalculatorService],
+  providers: [BankAccountService, BonusCalculatorService, TodosDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
