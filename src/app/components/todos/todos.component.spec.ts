@@ -8,7 +8,7 @@ import { TodoEntryComponent } from './todo-entry/todo-entry.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodosComponent } from './todos.component';
 
-fdescribe('TodosComponent', () => {
+describe('TodosComponent', () => {
 
   let serviceSpy: jasmine.SpyObj<TodosDataService>;
   let todoComponent: TodosComponent;
@@ -36,6 +36,11 @@ fdescribe('TodosComponent', () => {
     listComponent = todoFixture.debugElement.queryAll(By.directive(TodoListComponentStub))
       .map(el => el.componentInstance)[0];
 
+  });
+  it('the stuff got created', () => {
+    expect(todoComponent).toBeTruthy();
+    expect(entryComponent).toBeTruthy();
+    expect(listComponent).toBeTruthy();
   });
   it('should call load data on ngOnInit', () => {
     expect(serviceSpy.loadData).not.toHaveBeenCalled();

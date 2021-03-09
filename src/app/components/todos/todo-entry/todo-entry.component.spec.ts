@@ -35,4 +35,15 @@ describe('TodoEntryComponent', () => {
       .toHaveBeenCalledOnceWith('Things');
 
   });
+
+  it('does not emit if the form is not valid', () => {
+    const util = new FixtureElementUtils(componentFixture.debugElement);
+    const submitButton = util.getNativeElement<HTMLButtonElement>('[data-t-todo-submit]');
+    spyOn(componentFixture.componentInstance.itemAdded, 'emit');
+    // componentFixture.componentInstance.item.setValue('Things');
+    submitButton.click();
+    expect(componentFixture.componentInstance.form.invalid).toBe(true);
+    expect(componentFixture.componentInstance.itemAdded.emit)
+      .not.toHaveBeenCalled();
+  });
 });
