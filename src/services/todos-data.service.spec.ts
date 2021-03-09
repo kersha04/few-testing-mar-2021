@@ -49,12 +49,13 @@ describe('TodosDataService', () => {
 
   });
 
-  it('can add one', () => {
+  it('can add one', (done) => {
     const description = 'Shoe Laces';
     service.getData$()
       .pipe(
         skip(1),
-        tap(item => expect(item).toEqual([{ id: 'TESTID', description }]))
+        tap(item => expect(item).toEqual([{ id: 'TESTID', description }])),
+        tap(() => done())
       ).subscribe();
 
     service.addTodo({ description: 'Beer' });
