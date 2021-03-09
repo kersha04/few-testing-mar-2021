@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TodoListItem } from '../../models/todos';
 
 @Component({
   selector: 'app-todos',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodosComponent implements OnInit {
 
+  items: TodoListItem[] = [
+    { id: '1', description: 'Create a Service For This' },
+    { id: '2', description: 'Call the Drs Office' }
+  ];
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onItemAdded(item: string): void {
+    console.log('Got an item from my baby', item);
+  }
 }

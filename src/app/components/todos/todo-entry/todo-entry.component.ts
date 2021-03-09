@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 })
 export class TodoEntryComponent implements OnInit {
 
+  @Output() itemAdded = new EventEmitter<string>();
   form: FormGroup;
   constructor(private formBuilder: FormBuilder) { }
 
@@ -22,7 +23,7 @@ export class TodoEntryComponent implements OnInit {
   }
   submit(): void {
     if (this.form.valid) {
-      console.log('The Form', this.form.value);
+      this.itemAdded.emit(this.item.value);
     } else {
       console.log('The form isn\'t valid!');
     }
