@@ -13,8 +13,7 @@ describe('TodoEntryComponent', () => {
     });
 
     componentFixture = TestBed.createComponent(TodoEntryComponent);
-    componentFixture.componentInstance.ngOnInit();
-    componentFixture.detectChanges();
+    componentFixture.autoDetectChanges();
   });
 
   it('the form should not be valid until it filled out', () => {
@@ -31,7 +30,6 @@ describe('TodoEntryComponent', () => {
     spyOn(componentFixture.componentInstance.itemAdded, 'emit');
     componentFixture.componentInstance.item.setValue('Things');
     submitButton.click();
-    componentFixture.detectChanges();
     expect(componentFixture.componentInstance.form.valid).toBe(true);
     expect(componentFixture.componentInstance.itemAdded.emit)
       .toHaveBeenCalledOnceWith('Things');
