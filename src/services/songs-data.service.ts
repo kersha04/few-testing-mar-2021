@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 @Injectable()
 export class SongsDataService {
 
-  readonly baseUrl = environment + 'songs';
+  readonly baseUrl = environment.baseUrl + 'songs';
 
   getSongs$(): Observable<SongEntity[]> {
     return this.client.get<GetSongsResponse>(this.baseUrl)

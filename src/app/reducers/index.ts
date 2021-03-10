@@ -46,7 +46,7 @@ export const selectSortedSongListItems = createSelector(
       if (lhs[by].toLowerCase() < rhs[by].toLowerCase()) {
         return -1;
       }
-      if (lhs[by].toLowerCase() > rhs[by].toLowerCase()) {
+      if (lhs[by].toUpperCase() > rhs[by].toLowerCase()) {
         return 1;
       }
       return 0;
