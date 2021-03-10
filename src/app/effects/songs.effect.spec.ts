@@ -5,7 +5,7 @@ import { SongEffects } from './songs.effects';
 import { TestScheduler } from 'rxjs/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { loadSongData, loadSongsFailed, loadSongsSucceeded } from '../actions/songs.actions';
+import { loadSongData, loadSongsFailed, loadSongsSucceeded, songAdded, songAddedSuccessfully } from '../actions/songs.actions';
 describe('Song Effects', () => {
 
   let serviceSpy: jasmine.SpyObj<SongsDataService>;
@@ -15,7 +15,7 @@ describe('Song Effects', () => {
 
   beforeEach(() => {
     actions$ = new Observable<Action>();
-    serviceSpy = jasmine.createSpyObj('service', ['getSongs$']);
+    serviceSpy = jasmine.createSpyObj('service', ['getSongs$', 'addSong$']);
     TestBed.configureTestingModule({
       providers: [
         SongEffects,
@@ -57,6 +57,26 @@ describe('Song Effects', () => {
       );
       expectObservable(effects.loadData$).toBe('---c', {
         c: loadSongsFailed({ reason: 'Bad things happened' })
+      });
+    });
+  });
+
+  it('can successfully add a song', () => {
+    testScheduler.run(({ hot, cold, expectObservable }) => {
+      const action = songAdded({
+        title: 'Jaws Theme',
+        artist: 'Williams',
+        album: 'Jaws Soundtrack'
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      serviceSpy.addSong$.and.returnValue(
+        cold('--a', { a: { id: '99', title: 'Jaws' } })
+      );
+
+      expectObservable(effects.addSong$).toBe('---c', {
+        c: songAddedSuccessfully({ oldId: 'TEMP1', payload: { id: '99', title: 'Jaws' } })
       });
     });
   });
