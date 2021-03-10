@@ -9,13 +9,13 @@ export const reducers: ActionReducerMap<AppState> = {
   counter: fromCounter.reducer
 };
 
-const selectCounterBranch = (state: AppState) => state.counter;
+export const _selectCounterBranch = (state: AppState) => state.counter;
 
 
 // For the components:
 // - CounterComponent needs the count!
 
 export const selectCurrentCount = createSelector(
-  selectCounterBranch,
+  _selectCounterBranch,
   b => b.current
 );

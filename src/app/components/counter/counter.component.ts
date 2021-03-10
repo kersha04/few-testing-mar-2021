@@ -11,7 +11,8 @@ import * as actions from '../../actions/counter.actions';
 export class CounterComponent implements OnInit {
 
   current$: Observable<number>;
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {
+  }
 
   ngOnInit(): void {
     this.current$ = this.store.select(selectCurrentCount);
