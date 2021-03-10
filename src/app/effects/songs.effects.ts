@@ -8,6 +8,20 @@ import { of } from 'rxjs';
 @Injectable()
 export class SongEffects {
 
+  addSong$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.songAdded),
+      switchMap(original => this.service.addSong$({
+        title: original.payload.title,
+        artist: original.payload.artist,
+        album: original.payload.album
+      }).pipe(
+        map(response => actions.songAddedSuccessfully({ payload: response, oldId: original.payload.id })),
+        catchError(err => of(actions.songAddedFailure({ payload: original.payload, reason: 'Blammo!' })))
+      )))
+    , { dispatch: true }
+  );
+
   // loadSongData -> loadSongsSucceeded | loadSongsFailure
   loadData$ = createEffect(() =>
     this.actions$.pipe(
