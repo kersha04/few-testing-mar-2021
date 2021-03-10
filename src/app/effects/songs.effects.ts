@@ -3,17 +3,19 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SongsDataService } from 'src/services/songs-data.service';
 
 import * as actions from '../actions/songs.actions';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 @Injectable()
 export class SongEffects {
 
-  // loadSongData -> loadSongsSucceeded
+  // loadSongData -> loadSongsSucceeded | loadSongsFailure
   loadData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.loadSongData),
       switchMap(() => this.service.getSongs$()
         .pipe(
-          map(payload => actions.loadSongsSucceeded({ payload }))
+          map(payload => actions.loadSongsSucceeded({ payload })),
+          catchError((err) => of(actions.loadSongsFailed({ reason: 'Bad things happened' })))
         )
       )
     )
