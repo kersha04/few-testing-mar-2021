@@ -14,7 +14,7 @@ export class SongsDataService {
   getSongs$(): Observable<SongEntity[]> {
     return this.client.get<GetSongsResponse>(this.baseUrl)
       .pipe(
-        map(response => response.data),
+        map(getDataFrom),
         map(songs => {
           return songs.map(makeAnEntityOutOf);
         })
@@ -24,6 +24,9 @@ export class SongsDataService {
   constructor(private client: HttpClient) { }
 }
 
+export function getDataFrom(thing: GetSongsResponse): SongResponseItem[] {
+  return thing.data;
+}
 
 export function makeAnEntityOutOf(song: SongResponseItem): SongEntity {
   return {
