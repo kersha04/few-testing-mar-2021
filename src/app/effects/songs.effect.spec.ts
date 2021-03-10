@@ -5,7 +5,7 @@ import { SongEffects } from './songs.effects';
 import { TestScheduler } from 'rxjs/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { loadSongData, loadSongsFailed, loadSongsSucceeded, songAdded, songAddedSuccessfully } from '../actions/songs.actions';
+import { loadSongData, loadSongsFailed, loadSongsSucceeded, songAdded, songAddedFailure, songAddedSuccessfully } from '../actions/songs.actions';
 describe('Song Effects', () => {
 
   let serviceSpy: jasmine.SpyObj<SongsDataService>;
@@ -77,6 +77,24 @@ describe('Song Effects', () => {
 
       expectObservable(effects.addSong$).toBe('---c', {
         c: songAddedSuccessfully({ oldId: 'TEMP1', payload: { id: '99', title: 'Jaws' } })
+      });
+    });
+  });
+
+  it('dispatches a failure when the server barfs', () => {
+    testScheduler.run(({ hot, cold, expectObservable }) => {
+      const action = songAdded({
+        title: 'Jaws Theme',
+        artist: 'Williams',
+        album: 'Jaws Soundtrack'
+      });
+      actions$ = hot('-a', { a: action });
+
+      serviceSpy.addSong$.and.returnValue(
+        cold('#', undefined, { status: 404 })
+      );
+      expectObservable(effects.addSong$).toBe('-c', {
+        c: songAddedFailure({ payload: action.payload, reason: 'Blammo!' })
       });
     });
   });
